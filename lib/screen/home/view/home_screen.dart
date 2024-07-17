@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:wallpapers_app/screen/dash/view/dash_screen.dart';
+
+import '../../Favorite/view/Favorite_screen.dart';
+import '../../Premium/view/Premium_screen.dart';
+import '../../categories/view/category_screen.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -7,26 +12,43 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  GlobalKey defultTAbController=GlobalKey();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Wallpaper"),
-        bottom: const TabBar(
-          tabs: [
-            Tab(text: "Home"),
-            Tab(text: "Categories"),
-            Tab(text: "Premium"),
-            Tab(text: "Favorite"),
+    return DefaultTabController(
+      key: defultTAbController,
+      length: 4,
+      child: Scaffold(
+        appBar: AppBar(
+          leading: const Icon(Icons.menu),
+          title: const Text("Wallpaper"),
+          centerTitle: true,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child:IconButton(onPressed: () {
+                Navigator.pushNamed(context, "search");
+
+              }, icon:  const Icon(Icons.search),)
+            ),
+          ],
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: "Home"),
+              Tab(text: "Premium"),
+              Tab(text: "Categories"),
+              Tab(text: "Favorite"),
+            ],
+          ),
+        ),
+        body: const TabBarView(
+          children: [
+            DashScreen(),
+            PremiumScreen(),
+            CategoryScreen(),
+            FavoriteScreen()
           ],
         ),
-      ),
-      body: TabBarView(
-        children: [
-          CategoryScreen(),
-          PremiumScreen(),
-          FavoriteScreen()
-        ],
       ),
     );
   }
