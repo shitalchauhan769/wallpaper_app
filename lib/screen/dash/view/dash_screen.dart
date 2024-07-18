@@ -15,11 +15,19 @@ class DashScreen extends StatefulWidget {
 class _DashScreenState extends State<DashScreen> {
   HomeProvider? providerW;
   HomeProvider? providerR;
+  ScrollController  scrollController=ScrollController();
+
 
   @override
   void initState() {
     super.initState();
     context.read<HomeProvider>().getWallpaperAPI();
+    scrollController.addListener(() {
+      if(scrollController.position.pixels==scrollController.position.maxScrollExtent)
+        {
+          context.read<HomeProvider>().getWallpaperAPI();
+        }
+    });
   }
 
   @override
@@ -28,7 +36,7 @@ class _DashScreenState extends State<DashScreen> {
     providerW = context.watch<HomeProvider>();
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding:  EdgeInsets.all(8.0),
         child: FutureBuilder(
           future: providerW!.wallpaperModel,
           builder: (context, snapshot) {
@@ -37,34 +45,44 @@ class _DashScreenState extends State<DashScreen> {
             }
             else if (snapshot.hasData) {
               WallpaperModel? model = snapshot.data;
+              providerR!.hintList.addAll(model!.hitsList!);
+              model.hitsList!.clear();
+
+
               if (model == null) {
                 return const Center(child: Text("not available"));
               }
-              else if (model.hitsList!.isEmpty) {
+              else if (providerR!.hintList.isEmpty) {
                 return const Center(child: Text("search another topic"));
               }
               else {
-                return Expanded(
-                  child: GridView.builder(
-                    itemCount: model.hitsList!.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        mainAxisExtent: 200,
-                        mainAxisSpacing: 5,
-                        crossAxisSpacing: 5),
-                    itemBuilder: (context, index) {
-                      return CachedNetworkImage(
-                        imageUrl: "${model.hitsList![index].previewURL}",
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) =>
-                        const Center(child: CircularProgressIndicator()),
-                        errorWidget: (context, url, error) => const Center(
-                          child: Image(
-                            image: AssetImage("assets/image/placeholder.png"),
+                return InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, 'wallpaper');
+                  },
+                  child: Expanded(
+                    child: GridView.builder(
+                      controller: scrollController,
+                      itemCount: providerR!.hintList.length,
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          mainAxisExtent: 200,
+                          mainAxisSpacing: 5,
+                          crossAxisSpacing: 5),
+                      itemBuilder: (context, index) {
+                        return CachedNetworkImage(
+                          imageUrl: "${providerR!.hintList[index].previewURL}",
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                          errorWidget: (context, url, error) => const Center(
+                            child: Image(
+                              image: AssetImage("assets/image/placeholder.png"),
+                            ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
                 );
               }

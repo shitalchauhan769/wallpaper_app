@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wallpapers_app/screen/wallpaper/view/wallpaper_screen.dart';
 
 import '../screen/Favorite/view/Favorite_screen.dart';
 import '../screen/Premium/view/Premium_screen.dart';
@@ -13,4 +14,5 @@ Map<String,WidgetBuilder>app_routes={
   'premium':(context) => const PremiumScreen(),
   'categories':(context) => const CategoryScreen(),
   'favorite':(context) => const FavoriteScreen(),
+  'wallpaper':(context) => const WallpaperScreen()
 };

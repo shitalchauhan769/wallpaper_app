@@ -5,9 +5,9 @@ import 'package:http/http.dart'as http;
 import 'package:wallpapers_app/screen/home/model/wallpapers_model.dart';
 class WallpaperHelper
 {
-  Future<WallpaperModel ?> WallpaperAPI(String search)
+  Future<WallpaperModel ?> WallpaperAPI(String search,int page)
   async {
-    String link ="https://pixabay.com/api/?key=44956206-691dc0b23404010588a9d84c3&orientation=vertical&q=${search} ";
+    String link ="https://pixabay.com/api/?key=44956206-691dc0b23404010588a9d84c3&q=$search&orientation.vertical&page=$page";
 
     var response=await http.get(Uri.parse(link));
 

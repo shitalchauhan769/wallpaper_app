@@ -15,18 +15,28 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   HomeProvider? providerW;
   HomeProvider? providerR;
+  ScrollController  scrollController=ScrollController();
+  TextEditingController searchText = TextEditingController();
+
 
   @override
   void initState() {
     super.initState();
     context.read<HomeProvider>().getWallpaperAPI();
+    scrollController.addListener(() {
+      if(scrollController.position.pixels==scrollController.position.maxScrollExtent)
+      {
+        context.read<HomeProvider>().getWallpaperAPI();
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     providerR = context.read<HomeProvider>();
     providerW = context.watch<HomeProvider>();
-    TextEditingController searchText = TextEditingController();
+
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Search"),
@@ -43,17 +53,21 @@ class _SearchScreenState extends State<SearchScreen> {
             }
             else if (snapshot.hasData) {
               WallpaperModel? model = snapshot.data;
-              if (model == null) {
+              providerR!.hintList.addAll(model!.hitsList!);
+              model.hitsList!.clear();
+              if (providerR!.hintList ==null) {
                 return const Center(child: Text("not avalabel"));
               }
-              else if (model.hitsList!.isEmpty) {
+              else if (providerR!.hintList.isEmpty) {
                 return const Center(child: Text("search another topic"));
               }
               else {
                 return Column(
                   children: [
                     SearchBar(
+                      hintText: "Search",
                       controller: searchText,
+
                       onSubmitted: (value) {
                         providerW!.search = searchText.text;
                         providerR!.getWallpaperAPI();
@@ -66,17 +80,14 @@ class _SearchScreenState extends State<SearchScreen> {
                             },
                             icon: const Icon(Icons.search),),
                       ],
-                      // onTap: () {
-                      //   providerW!.search = searchText.text;
-                      //   providerR!.getWallpaperAPI();
-                      // },
+
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Expanded(
                       child: GridView.builder(
-                        itemCount: model.hitsList!.length,
+                        itemCount: providerR!.hintList.length,
                         gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 3,
@@ -85,7 +96,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             crossAxisSpacing: 5),
                         itemBuilder: (context, index) {
                           return CachedNetworkImage(
-                            imageUrl: "${model.hitsList![index].previewURL}",
+                            imageUrl: "${providerR!.hintList[index].previewURL}",
                             fit: BoxFit.cover,
                             placeholder: (context, url) => const Center(
                                 child: CircularProgressIndicator()),

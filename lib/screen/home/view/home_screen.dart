@@ -35,8 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
           bottom: const TabBar(
             tabs: [
               Tab(text: "Home"),
-              Tab(text: "Premium"),
               Tab(text: "Categories"),
+              Tab(text: "Premium"),
               Tab(text: "Favorite"),
             ],
           ),
@@ -44,8 +44,8 @@ class _HomeScreenState extends State<HomeScreen> {
         body: const TabBarView(
           children: [
             DashScreen(),
-            PremiumScreen(),
             CategoryScreen(),
+            PremiumScreen(),
             FavoriteScreen()
           ],
         ),
