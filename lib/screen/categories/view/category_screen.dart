@@ -60,7 +60,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
           ? GridView.builder(
               itemCount: categoris.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2),
+                  crossAxisCount: 3),
               itemBuilder: (context, index) {
                 return Tile(index);
               },
@@ -77,13 +77,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
 
   Widget Tile(int index) {
     return InkWell(
-      // onTap: () {
-      //   List mainList = [
-      //
-      //   ];
-      //
-      //   Navigator.pushNamed(context, 'Quotes',);
-      // },
+      onTap: () {
+        providerW!.search = categoris[index].name!;
+        providerR!.getWallpaperAPI();
+        Navigator.pushNamed(context, "wallpaper");
+      },
       child: Container(
         margin: EdgeInsets.all(5),
         height: 100,
@@ -98,7 +96,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
         alignment: Alignment.bottomCenter,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withOpacity(0.5),
             borderRadius: BorderRadius.circular(5),
           ),
           child: Text(

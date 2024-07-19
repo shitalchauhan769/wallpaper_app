@@ -1,7 +1,7 @@
 import 'package:wallpapers_app/screen/categories/model/categoris_model.dart';
 
 List<CategorisModel>categoris=[
-  CategorisModel(name: "Abstract",image: "https://img.freepik.com/free-photo/blue-smoky-art-abstract-background_53876-108417.jpg"),
+  CategorisModel(name: "Abstract",image: "https://img.freepik.com/free-photo/abstract-backdrop-illustration-with-multi-colored-design-shapes-generated-by-ai_188544-15582.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1721260800&semt=ais_user"),
   CategorisModel(name: "Cyberpunk",image: "https://static.vecteezy.com/system/resources/previews/026/727/261/large_2x/night-landscape-view-cyberpunk-city-illustration-free-photo.jpg"),
   CategorisModel(name: "Flower",image: "https://t4.ftcdn.net/jpg/05/57/29/25/360_F_557292539_2kXYz0frOcCGISoYEd2MNTmxyT0lYyOj.jpg"),
   CategorisModel(name: "Gem",image: "https://img.freepik.com/premium-photo/diamond-jewelry-crystal-gem-jewel-stone-brilliant-luxury-isolated-white-gemstone-preciou_851808-488.jpg"),

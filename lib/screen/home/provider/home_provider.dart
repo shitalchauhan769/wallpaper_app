@@ -7,7 +7,8 @@ class HomeProvider with ChangeNotifier {
   int isIndex = 0;
   String search = "nature";
   List<HitsModel>hintList=[];
-  int page=0;
+  int page=1;
+
 
   void changeImage(int index) {
     isIndex = index;
@@ -15,7 +16,6 @@ class HomeProvider with ChangeNotifier {
   }
 
   void getWallpaperAPI() {
-    page++;
     WallpaperHelper helper = WallpaperHelper();
 
     wallpaperModel = helper.WallpaperAPI(search,page);

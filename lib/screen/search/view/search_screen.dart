@@ -26,7 +26,9 @@ class _SearchScreenState extends State<SearchScreen> {
     scrollController.addListener(() {
       if(scrollController.position.pixels==scrollController.position.maxScrollExtent)
       {
+        context.read<HomeProvider>().page++;
         context.read<HomeProvider>().getWallpaperAPI();
+
       }
     });
   }
@@ -53,8 +55,11 @@ class _SearchScreenState extends State<SearchScreen> {
             }
             else if (snapshot.hasData) {
               WallpaperModel? model = snapshot.data;
+              providerR!.page=1;
+              // providerR!.hintList.clear();
               providerR!.hintList.addAll(model!.hitsList!);
-              model.hitsList!.clear();
+
+              // model.hitsList!.clear();
               if (providerR!.hintList ==null) {
                 return const Center(child: Text("not avalabel"));
               }
@@ -62,55 +67,61 @@ class _SearchScreenState extends State<SearchScreen> {
                 return const Center(child: Text("search another topic"));
               }
               else {
-                return Column(
-                  children: [
-                    SearchBar(
-                      hintText: "Search",
-                      controller: searchText,
+                return InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, 'wallpaper');
+                  },
+                  child: Column(
+                    children: [
+                      SearchBar(
+                        hintText: "Search",
+                        controller: searchText,
+                        elevation: const MaterialStatePropertyAll(1),
 
-                      onSubmitted: (value) {
-                        providerW!.search = searchText.text;
-                        providerR!.getWallpaperAPI();
-                      },
-                      trailing: <Widget>[
-                        IconButton(
-                            onPressed: () {
-                              providerW!.search = searchText.text;
-                              providerR!.getWallpaperAPI();
-                            },
-                            icon: const Icon(Icons.search),),
-                      ],
-
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Expanded(
-                      child: GridView.builder(
-                        itemCount: providerR!.hintList.length,
-                        gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            mainAxisExtent: 200,
-                            mainAxisSpacing: 5,
-                            crossAxisSpacing: 5),
-                        itemBuilder: (context, index) {
-                          return CachedNetworkImage(
-                            imageUrl: "${providerR!.hintList[index].previewURL}",
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => const Center(
-                                child: CircularProgressIndicator()),
-                            errorWidget: (context, url, error) => const Center(
-                              child: Image(
-                                image:
-                                AssetImage("assets/image/placeholder.png"),
-                              ),
-                            ),
-                          );
+                        onSubmitted: (value) {
+                          providerW!.search = searchText.text;
+                          providerR!.getWallpaperAPI();
                         },
+                        trailing: <Widget>[
+                          IconButton(
+                              onPressed: () {
+                                providerW!.search = searchText.text;
+                                providerR!.getWallpaperAPI();
+                              },
+                              icon: const Icon(Icons.search),),
+                        ],
+
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Expanded(
+                        child: GridView.builder(
+                          itemCount: providerR!.hintList.length,
+                          gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              mainAxisExtent: 200,
+                              mainAxisSpacing: 5,
+                              crossAxisSpacing: 5),
+                          itemBuilder: (context, index) {
+                            return CachedNetworkImage(
+                              imageUrl: "${providerR!.hintList[index].previewURL}",
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => const Center(
+                                  child: CircularProgressIndicator()),
+                              errorWidget: (context, url, error) => const Center(
+                                child: Image(
+                                  image:
+                                  AssetImage("assets/image/placeholder.png"),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               }
             }
