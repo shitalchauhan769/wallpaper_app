@@ -13,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   GlobalKey defultTAbController=GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -27,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.all(10.0),
               child:IconButton(onPressed: () {
+
                 Navigator.pushNamed(context, "search");
 
               }, icon:  const Icon(Icons.search),)
@@ -49,7 +51,31 @@ class _HomeScreenState extends State<HomeScreen> {
             FavoriteScreen()
           ],
         ),
+
       ),
     );
   }
 }
+
+//// drawer:Drawer(
+//           //   child: Column(
+//           //     children: [
+//           //       Row(
+//           //         children: [
+//           //           Container(
+//           //             height: 100,
+//           //             width: 100,
+//           //             decoration: BoxDecoration(
+//           //               borderRadius: BorderRadius.circular(10),
+//           //             ),
+//           //             child: const Column(
+//           //               children: [
+//           //                 Text("Dark"),
+//           //               ],
+//           //             ),
+//           //           )
+//           //         ],
+//           //       )
+//           //     ],
+//           //   ),
+//           // )

@@ -41,7 +41,8 @@ class _WallpaperScreenState extends State<WallpaperScreen> {
                       image: DecorationImage(
                           image: NetworkImage(
                               providerW!.hintList[index].previewURL!),
-                          fit: BoxFit.cover)),
+                          fit: BoxFit.cover),
+                  ),
                 );
               },
               options: CarouselOptions(

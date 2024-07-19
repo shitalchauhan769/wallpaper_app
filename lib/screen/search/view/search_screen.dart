@@ -43,7 +43,6 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         title: const Text("Search"),
         centerTitle: true,
-        actions: [],
       ),
       body:Padding(
         padding: const EdgeInsets.all(8.0),
@@ -55,11 +54,12 @@ class _SearchScreenState extends State<SearchScreen> {
             }
             else if (snapshot.hasData) {
               WallpaperModel? model = snapshot.data;
+              providerR!.hintList.clear();
               providerR!.page=1;
-              // providerR!.hintList.clear();
               providerR!.hintList.addAll(model!.hitsList!);
+              model.hitsList!.clear();
 
-              // model.hitsList!.clear();
+              model.hitsList!.clear();
               if (providerR!.hintList ==null) {
                 return const Center(child: Text("not avalabel"));
               }

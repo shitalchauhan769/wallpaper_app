@@ -17,18 +17,14 @@ class _DashScreenState extends State<DashScreen> {
   HomeProvider? providerR;
   ScrollController?  scrollController=ScrollController();
 
-
   @override
   void initState() {
     super.initState();
     context.read<HomeProvider>().getWallpaperAPI();
-    // print(scrollController!.position);
     scrollController!.addListener(() {
       if(scrollController!.position.pixels==scrollController!.position.maxScrollExtent)
-        {
-
+        { context.read<HomeProvider>().page++;
           context.read<HomeProvider>().getWallpaperAPI();
-          // print(context.read<HomeProvider>().page);
         }
      }
      );
@@ -39,6 +35,7 @@ class _DashScreenState extends State<DashScreen> {
     providerR = context.read<HomeProvider>();
     providerW = context.watch<HomeProvider>();
     return Scaffold(
+
       body: FutureBuilder(
         future: providerW!.wallpaperModel,
         builder: (context, snapshot) {
@@ -48,6 +45,7 @@ class _DashScreenState extends State<DashScreen> {
           else if (snapshot.hasData) {
             WallpaperModel? model = snapshot.data;
             providerR!.hintList.addAll(model!.hitsList!);
+            model.hitsList!.clear();
 
             if (model == null) {
               return const Center(child: Text("not available"));
@@ -92,28 +90,7 @@ class _DashScreenState extends State<DashScreen> {
           return const Center(child: CircularProgressIndicator());
         },
       ),
-      drawer:Drawer(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Container(
-                  height: 100,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: const Column(
-                    children: [
-                      Text("Dark"),
-                    ],
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
-      )
+
     );
   }
 
