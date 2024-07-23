@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wallpapers_app/screen/dash/view/dash_screen.dart';
 
 import '../../Favorite/view/Favorite_screen.dart';
 import '../../Premium/view/Premium_screen.dart';
 import '../../categories/view/category_screen.dart';
+import '../provider/home_provider.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -12,10 +14,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  HomeProvider? providerR;
+  HomeProvider? providerW;
   GlobalKey defultTAbController=GlobalKey();
 
   @override
   Widget build(BuildContext context) {
+    providerW=context.watch<HomeProvider>();
+    providerR=context.read<HomeProvider>();
     return DefaultTabController(
       key: defultTAbController,
       length: 4,
@@ -33,13 +39,35 @@ class _HomeScreenState extends State<HomeScreen> {
 
               }, icon:  const Icon(Icons.search),)
             ),
+            PopupMenuButton(
+              itemBuilder: (context) => [
+                PopupMenuItem(
+                  child: const Text("Light"),
+                  onTap: () {
+                    providerR!.setTheme("Light");
+                  },
+                ),
+                PopupMenuItem(
+                  child: const Text("Dark"),
+                  onTap: () {
+                    providerR!.setTheme("Dark");
+                  },
+                ),
+                PopupMenuItem(
+                  child: const Text("System"),
+                  onTap: () {
+                    providerR!.setTheme("System");
+                  },
+                ),
+              ],
+            ),
           ],
           bottom: const TabBar(
             tabs: [
               Tab(text: "Home"),
               Tab(text: "Categories"),
               Tab(text: "Premium"),
-              Tab(text: "Favorite"),
+
             ],
           ),
         ),
@@ -48,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
             DashScreen(),
             CategoryScreen(),
             PremiumScreen(),
-            FavoriteScreen()
+
           ],
         ),
 

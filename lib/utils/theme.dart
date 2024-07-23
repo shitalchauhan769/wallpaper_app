@@ -1,5 +1,5 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-class litheTheme
-{
 
-}
+ThemeData lightTheme = ThemeData(brightness: Brightness.light,);
+ThemeData darkTheme = ThemeData(brightness: Brightness.dark,);
